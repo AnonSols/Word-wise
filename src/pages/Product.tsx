@@ -1,8 +1,10 @@
+import AppNav from "../components/AppNav";
 import styles from "./Product.module.css";
 
 export default function Product() {
   return (
     <main className={styles.product}>
+      <AppNav />
       <section>
         <img
           src="img-1.jpg"
