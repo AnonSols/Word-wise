@@ -1,21 +1,15 @@
-import { Link } from "react-router-dom";
-import style from "./PageNav.module.css";
-import Logo from "./Logo";
+import { NavLink } from "react-router-dom";
+import styles from "./AppNav.module.css";
+
 const AppNav = () => {
   return (
-    <nav className={style.nav}>
-      <Logo />
+    <nav className={styles.nav}>
       <ul>
         <li>
-          <Link to="/product">Product</Link>
+          <NavLink to="cities">Cities</NavLink>
         </li>
         <li>
-          <Link to="/pricing">Pricing</Link>
-        </li>
-        <li>
-          <Link to="/login" className={style.ctaLink}>
-            Login
-          </Link>
+          <NavLink to="country">Countries</NavLink>
         </li>
       </ul>
     </nav>

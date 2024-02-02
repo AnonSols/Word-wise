@@ -1,5 +1,5 @@
 // Uses the same styles as Product
-import AppNav from "../components/AppNav";
+import AppNav from "../components/PageNav";
 import styles from "./Product.module.css";
 
 export default function Product() {
