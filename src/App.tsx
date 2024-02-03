@@ -8,51 +8,62 @@ import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./pages/AppLayout";
 import CityList from "./components/CityList";
 import { useEffect, useReducer } from "react";
-import { REDUCER_ACTION, REDUCER_TYPE } from "../types/model";
+import { InitialState, REDUCER_ACTION, REDUCER_TYPE } from "../types/model";
+
 const App = () => {
-  const InitialState = {
-    cities: "",
+  const initialState: InitialState = {
+    cities: [],
     isLoading: false,
   };
 
   function reducer(
-    state: typeof InitialState,
+    state: typeof initialState,
     action: REDUCER_TYPE
-  ): typeof InitialState {
+  ): typeof initialState {
     switch (action.type) {
       case REDUCER_ACTION.CITIES:
-        return { ...state };
+        return { ...state, cities: action.payload?.data };
+      case REDUCER_ACTION.LOADING:
+        return { ...state, isLoading: action.payload?.loading };
 
       default:
         throw new Error("This code is never to be reached.");
     }
   }
-  const [{ cities, isLoading }, dispatch] = useReducer(reducer, InitialState);
+  const [{ cities, isLoading }, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     const controller = new AbortController();
 
     async function cityData() {
       try {
-        const res = await fetch("http://localhost:9000/cities", {
+        dispatch({ type: REDUCER_ACTION.LOADING, payload: { loading: true } });
+        const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities`, {
           signal: controller.signal,
         });
 
         if (!res.ok) throw new Error("The data couldn't be fetched");
         const data = await res.json();
+        const check = typeof data;
+
+        console.log(check);
         console.log(data);
-        dispatch({ type: REDUCER_ACTION.CITIES, payload: data });
+
+        dispatch({ type: REDUCER_ACTION.CITIES, payload: { data } });
       } catch (error) {
-        if ((error as Error).message === "AbortController") {
-          console.log((error as Error).message);
-        }
+        console.log((error as Error).message);
+      } finally {
+        dispatch({ type: REDUCER_ACTION.LOADING, payload: { loading: false } });
       }
     }
 
-    cityData;
+    cityData();
 
     return () => controller.abort();
   }, []);
+
+  console.log(cities, isLoading);
+
   return (
     <>
       <BrowserRouter>
