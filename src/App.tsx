@@ -44,10 +44,6 @@ const App = () => {
 
         if (!res.ok) throw new Error("The data couldn't be fetched");
         const data = await res.json();
-        const check = typeof data;
-
-        console.log(check);
-        console.log(data);
 
         dispatch({ type: REDUCER_ACTION.CITIES, payload: { data } });
       } catch (error) {
@@ -62,16 +58,20 @@ const App = () => {
     return () => controller.abort();
   }, []);
 
-  console.log(cities, isLoading);
-
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route index element={<Homepage />} />
           <Route path="app" element={<AppLayout />}>
-            <Route index element={<CityList />} />
-            <Route path="cities" element={<CityList />} />
+            <Route
+              index
+              element={<CityList cities={cities} isLoading={isLoading} />}
+            />
+            <Route
+              path="cities"
+              element={<CityList cities={cities} isLoading={isLoading} />}
+            />
             <Route
               path="country"
               element={<p>This is the list of country</p>}

@@ -16,7 +16,12 @@ const sample = {
   },
   id: "73930385",
 };
-export type cities = (typeof sample)[];
+
+export interface CountryProp {
+  country: string;
+  emoji: string;
+}
+export type cities = typeof sample;
 export type InitialState = {
   cities?: Array<typeof sample>;
   isLoading?: boolean;
