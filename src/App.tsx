@@ -9,6 +9,7 @@ import AppLayout from "./pages/AppLayout";
 import CityList from "./components/CityList";
 import { useEffect, useReducer } from "react";
 import { InitialState, REDUCER_ACTION, REDUCER_TYPE } from "../types/model";
+import CountryList from "./components/CountryList";
 
 const App = () => {
   const initialState: InitialState = {
@@ -74,7 +75,7 @@ const App = () => {
             />
             <Route
               path="country"
-              element={<p>This is the list of country</p>}
+              element={<CountryList cities={cities} isLoading={isLoading} />}
             />
             <Route path="form" element={<p>This is the form</p>} />
           </Route>

@@ -22,6 +22,7 @@ export interface CountryProp {
   emoji: string;
 }
 export type cities = typeof sample;
+
 export type InitialState = {
   cities?: Array<typeof sample>;
   isLoading?: boolean;

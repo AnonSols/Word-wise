@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styles from "./CountryList.module.css";
 import { CountryProp, cities } from "../../types/model";
 import Spinner from "./Spinner";
@@ -11,7 +10,6 @@ type Prop = {
 };
 
 const CountryList = ({ cities, isLoading }: Prop) => {
-  useEffect;
   if (isLoading) return <Spinner />;
   if (cities && !cities.length)
     return (
@@ -19,17 +17,18 @@ const CountryList = ({ cities, isLoading }: Prop) => {
         message={"Add your first city by clicking on a city on the map"}
       />
     );
+  const check: CountryProp[] = [];
 
-  const countries: CountryProp[] =
+  const countries =
     cities &&
     cities.reduce((arr, city) => {
-      if (!arr.map((el) => el.country).includes(city.country)) {
+      if (!arr.map((el) => el.country).includes(city.country))
         return [...arr, { country: city.country, emoji: city.emoji }];
-      } else return arr;
-    }, []);
+      else return arr;
+    }, check);
   return (
     <ul className={styles.countryList}>
-      {countries.map((country) => (
+      {countries?.map((country) => (
         <CountryItem Country={country} />
       ))}
     </ul>
