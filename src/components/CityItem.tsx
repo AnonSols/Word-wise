@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { cities } from "../../types/model";
 import styles from "./CityItem.module.css";
 type Prop = {
@@ -12,14 +13,17 @@ const formatDate = (date: string) =>
     weekday: "long",
   }).format(new Date(date));
 const CityItem = ({ city }: Prop) => {
-  const { cityName, emoji, date } = city;
+  const { cityName, emoji, date, id, position } = city;
+  const { lat, lng } = position;
   return (
-    <li className={styles.cityItem}>
-      <span className={styles.emoji}>{emoji}</span>
-      <h3 className={styles.name}>{cityName}</h3>
+    <li>
+      <Link to={`${id}?lat=${lat}&lng=${lng}`} className={styles.cityItem}>
+        <span className={styles.emoji}>{emoji}</span>
+        <h3 className={styles.name}>{cityName}</h3>
 
-      <time className={styles.date}>({formatDate(date)})</time>
-      <button className={styles.deleteBtn}>&times;</button>
+        <time className={styles.date}>({formatDate(date)})</time>
+        <button className={styles.deleteBtn}>&times;</button>
+      </Link>
     </li>
   );
 };

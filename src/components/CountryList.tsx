@@ -10,7 +10,7 @@ type Prop = {
 };
 
 const CountryList = ({ cities, isLoading }: Prop) => {
-  if (isLoading) return <Spinner />;
+  if (isLoading && isLoading) return <Spinner />;
   if (cities && !cities.length)
     return (
       <Message
@@ -29,7 +29,7 @@ const CountryList = ({ cities, isLoading }: Prop) => {
   return (
     <ul className={styles.countryList}>
       {countries?.map((country) => (
-        <CountryItem Country={country} />
+        <CountryItem Country={country} key={country.country} />
       ))}
     </ul>
   );

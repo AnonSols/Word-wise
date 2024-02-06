@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Homepage from "./pages/Homepage";
 import Pricing from "./pages/Pricing";
@@ -10,6 +10,8 @@ import CityList from "./components/CityList";
 import { useEffect, useReducer } from "react";
 import { InitialState, REDUCER_ACTION, REDUCER_TYPE } from "../types/model";
 import CountryList from "./components/CountryList";
+import City from "./components/City";
+import Form from "./components/Form";
 
 const App = () => {
   const initialState: InitialState = {
@@ -65,19 +67,18 @@ const App = () => {
         <Routes>
           <Route index element={<Homepage />} />
           <Route path="app" element={<AppLayout />}>
-            <Route
-              index
-              element={<CityList cities={cities} isLoading={isLoading} />}
-            />
+            <Route index element={<Navigate replace to="cities" />} />
             <Route
               path="cities"
               element={<CityList cities={cities} isLoading={isLoading} />}
             />
+            <Route path="cities/:id" element={<City />} />
+
             <Route
               path="country"
               element={<CountryList cities={cities} isLoading={isLoading} />}
             />
-            <Route path="form" element={<p>This is the form</p>} />
+            <Route path="form" element={<Form />} />
           </Route>
           <Route path="product" element={<Product />} />
           <Route path="pricing" element={<Pricing />} />
