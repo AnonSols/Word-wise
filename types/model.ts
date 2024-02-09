@@ -1,10 +1,11 @@
 export const enum REDUCER_ACTION {
   CITIES,
   LOADING,
+  CURRENT_CITY,
   ENDPOINT = "http://localhost:3000/",
 }
 
-const sample = {
+export const sample = {
   cityName: "Lisbon",
   country: "Portugal",
   emoji: "🇵🇹",
@@ -26,6 +27,7 @@ export type cities = typeof sample;
 export type InitialState = {
   cities?: Array<typeof sample>;
   isLoading?: boolean;
+  currentCity: typeof sample;
 };
 
 export interface REDUCER_TYPE {
@@ -33,5 +35,6 @@ export interface REDUCER_TYPE {
   payload?: {
     loading?: boolean;
     data?: (typeof sample)[];
+    currentCity?: typeof sample;
   };
 }
