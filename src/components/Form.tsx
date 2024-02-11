@@ -5,6 +5,9 @@ import { useState } from "react";
 import styles from "./Form.module.css";
 import Button from "./Button/Button";
 import BackButton from "./Button/BackButton";
+import { useSearchParams } from "react-router-dom";
+import { useCity } from "../context/CityContext";
+import { positionProp } from "../../types/model";
 
 function Form() {
   const [cityName, setCityName] = useState<string>("");
@@ -12,6 +15,17 @@ function Form() {
   const [date, setDate] = useState<string>(new Date().toString());
   const [notes, setNotes] = useState<string>("");
 
+  const [searchParams] = useSearchParams();
+
+  const mapLat = Number(searchParams.get("lat"));
+  const mapLng = Number(searchParams.get("lng"));
+
+  const position: positionProp = {
+    lat: mapLat,
+    lng: mapLng,
+  };
+
+  const { addCity } = useCity();
   return (
     <form className={styles.form}>
       <div className={styles.row}>
@@ -43,7 +57,12 @@ function Form() {
       </div>
 
       <div className={styles.buttons}>
-        <Button type="primary">Add </Button>
+        <Button
+          type="primary"
+          onclick={() => addCity({ cityName, date, notes, position })}
+        >
+          Add{" "}
+        </Button>
         <BackButton />
       </div>
     </form>

@@ -2,6 +2,8 @@ export const enum REDUCER_ACTION {
   CITIES,
   LOADING,
   CURRENT_CITY,
+  ADD_CITY,
+  REMOVE_CITY,
   ENDPOINT = "http://localhost:3000/",
 }
 
@@ -29,12 +31,22 @@ export type InitialState = {
   isLoading?: boolean;
   currentCity: typeof sample;
 };
-
+export interface positionProp {
+  lat: number;
+  lng: number;
+}
+export type AddCityProp = {
+  cityName: string;
+  date: string;
+  notes: string;
+  position: positionProp;
+};
 export interface REDUCER_TYPE {
   type: REDUCER_ACTION;
   payload?: {
     loading?: boolean;
     data?: (typeof sample)[];
     currentCity?: typeof sample;
+    addCity?: AddCityProp;
   };
 }

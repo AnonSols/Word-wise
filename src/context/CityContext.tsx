@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import {
+  AddCityProp,
   InitialState,
   REDUCER_ACTION,
   REDUCER_TYPE,
@@ -19,6 +20,7 @@ type CityContextProp = {
   isLoading: boolean | undefined;
   dispatch: React.Dispatch<REDUCER_TYPE>;
   getCity(id: string): Promise<void>;
+  addCity({ cityName, date, notes, position }: AddCityProp): void;
   currentCity: sampleProp;
   convertToEmoji(countryCode: string): React.ReactNode;
 };
@@ -48,6 +50,19 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         return {
           ...state,
           isLoading: action.payload?.loading,
+        };
+      case REDUCER_ACTION.ADD_CITY:
+        return {
+          ...state,
+          cities: [
+            ...cities,
+            {
+              cityName: action.payload?.addCity?.cityName,
+              date: action.payload?.addCity?.date,
+              notes: action.payload?.addCity?.notes,
+              position: action.payload?.addCity?.position,
+            },
+          ],
         };
       case REDUCER_ACTION.CURRENT_CITY:
         return {
@@ -130,6 +145,19 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  function addCity({ cityName, date, notes, position }: AddCityProp) {
+    dispatch({
+      type: REDUCER_ACTION.ADD_CITY,
+      payload: {
+        addCity: {
+          cityName,
+          date,
+          notes,
+          position,
+        },
+      },
+    });
+  }
   return (
     <cityContext.Provider
       value={{
@@ -139,6 +167,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         getCity,
         currentCity,
         convertToEmoji,
+        addCity,
       }}
     >
       <> {children}</>
