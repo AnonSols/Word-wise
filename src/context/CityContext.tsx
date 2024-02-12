@@ -52,6 +52,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
           isLoading: action.payload?.loading,
         };
       case REDUCER_ACTION.ADD_CITY:
+        console.log(state)
         return {
           ...state,
           cities: [

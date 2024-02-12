@@ -38,6 +38,7 @@ export interface positionProp {
 export type AddCityProp = {
   cityName: string;
   date: string;
+  
   notes: string;
   position: positionProp;
 };
