@@ -5,6 +5,7 @@ export const enum REDUCER_ACTION {
   ADD_CITY,
   REMOVE_CITY,
   ENDPOINT = "http://localhost:3000/",
+  DATA_ENDPOINT = "https://api.bigdatacloud.net/data/reverse-geocode-client?",
 }
 
 export const sample = {
@@ -38,7 +39,7 @@ export interface positionProp {
 export type AddCityProp = {
   cityName: string;
   date: string;
-  
+
   notes: string;
   position: positionProp;
 };
