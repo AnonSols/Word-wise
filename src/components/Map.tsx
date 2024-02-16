@@ -51,11 +51,11 @@ const Map = () => {
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
         {cities &&
-          cities.map((city) => (
+          cities.map((city, id) => (
             <>
               <Marker
                 position={[city.position.lat, city.position.lng]}
-                key={city.id}
+                key={id}
               >
                 <Popup>
                   <span>{city.emoji}</span>
@@ -81,7 +81,11 @@ function ChangCenter({ position }: { position: [number, number] }): null {
 function DetectClick(): null {
   const navigate = useNavigate();
   useMapEvents({
-    click: (e) => navigate(`form?lat=${e.latlng.lat}lng=${e.latlng.lng}`),
+    click: (e) => {
+      console.log(e.latlng.lat, e.latlng.lng);
+
+      return navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+    },
   });
 
   return null;

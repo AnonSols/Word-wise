@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
+
 import {
   AddCityProp,
   InitialState,
   REDUCER_ACTION,
   REDUCER_TYPE,
   sample,
-} from "../../types/model";
+} from "../types/model";
 
 export type sampleProp = typeof sample;
 
@@ -52,7 +53,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
           isLoading: action.payload?.loading,
         };
       case REDUCER_ACTION.ADD_CITY:
-        console.log(state)
+        console.log(state);
         return {
           ...state,
           cities: [

@@ -1,10 +1,10 @@
 // import styles from "./City.module.css";
 
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useCity } from "../context/CityContext";
 import styles from "./City.module.css";
-import Button from "./Button/Button";
+// import Button from "./Button/Button";
 import Spinner from "./Spinner";
 import BackButton from "./Button/BackButton";
 
@@ -19,7 +19,7 @@ const formatDate = (date: string | null) =>
 
 function City() {
   // TEMP DATA
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { id } = useParams();
   useEffect(() => {

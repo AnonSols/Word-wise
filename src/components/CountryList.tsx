@@ -1,5 +1,5 @@
 import styles from "./CountryList.module.css";
-import { CountryProp } from "../../types/model";
+import { CountryProp } from "../types/model";
 import Spinner from "./Spinner";
 import Message from "./Message";
 import CountryItem from "./CountryItem";

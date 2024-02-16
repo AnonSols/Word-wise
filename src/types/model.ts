@@ -1,11 +1,11 @@
-export const enum REDUCER_ACTION {
+export enum REDUCER_ACTION {
   CITIES,
   LOADING,
   CURRENT_CITY,
   ADD_CITY,
   REMOVE_CITY,
   ENDPOINT = "http://localhost:3000/",
-  DATA_ENDPOINT = "https://api.bigdatacloud.net/data/reverse-geocode-client?",
+  DATA_ENDPOINT = "https://api.bigdatacloud.net/data/reverse-geocode-client",
 }
 
 export const sample = {
