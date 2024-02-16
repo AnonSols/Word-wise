@@ -17,7 +17,7 @@ function Form() {
   const [emoji, setEmoji] = useState<string | React.ReactNode>("");
   const [date, setDate] = useState<string>(new Date().toString());
   const [notes, setNotes] = useState<string>("");
-  const { convertToEmoji } = useCity();
+  // const { convertToEmoji } = useCity();
   const { lat, lng } = useUrlPosition();
 
   console.log(country);
@@ -51,8 +51,6 @@ function Form() {
 
         setCityName(data.city || data.locality || "");
         setCountry(data.countryName);
-
-        setEmoji(convertToEmoji(data.countryCode));
       } catch (e) {
         // if ((e as Error).name !== "AbortError")
         setErrorGeoCoding((e as Error).message);
