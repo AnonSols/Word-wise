@@ -21,6 +21,10 @@ export const sample = {
   id: "73930385",
 };
 
+export type AddCityProp = {
+  newCity: typeof sample;
+};
+
 export interface CountryProp {
   country: string;
   emoji: string;
@@ -36,13 +40,14 @@ export interface positionProp {
   lat: number;
   lng: number;
 }
-export type AddCityProp = {
-  cityName: string;
-  date: string;
+// export type AddCityProp = {
+//   cityName: string;
+//   date: string;
 
-  notes: string;
-  position: positionProp;
-};
+//   notes: string;
+//   position: positionProp;
+// };
+
 export interface REDUCER_TYPE {
   type: REDUCER_ACTION;
   payload?: {

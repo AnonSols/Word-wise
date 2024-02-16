@@ -21,18 +21,20 @@ type CityContextProp = {
   isLoading: boolean | undefined;
   dispatch: React.Dispatch<REDUCER_TYPE>;
   getCity(id: string): Promise<void>;
-  addCity({ cityName, date, notes, position }: AddCityProp): void;
+  addCity(newCity: AddCityProp): void;
   currentCity: sampleProp;
-  convertToEmoji(countryCode: string): React.ReactNode;
+  convertToEmoji(countryCode: string): string;
 };
 
 const cityContext = createContext<CityContextProp | undefined>(undefined);
 
-function convertToEmoji(countryCode: string) {
+function convertToEmoji(countryCode: string): string {
   const codePoints = countryCode
     .toUpperCase()
     .split("")
-    .map((char, index) => 127397 + char.charCodeAt(index));
+    .map((char) => 127397 + char.charCodeAt(Number(char)));
+  console.log(codePoints);
+
   return String.fromCodePoint(...codePoints);
 }
 
@@ -52,20 +54,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
           ...state,
           isLoading: action.payload?.loading,
         };
-      case REDUCER_ACTION.ADD_CITY:
-        console.log(state);
-        return {
-          ...state,
-          cities: [
-            ...cities,
-            {
-              cityName: action.payload?.addCity?.cityName,
-              date: action.payload?.addCity?.date,
-              notes: action.payload?.addCity?.notes,
-              position: action.payload?.addCity?.position,
-            },
-          ],
-        };
+
       case REDUCER_ACTION.CURRENT_CITY:
         return {
           ...state,
@@ -147,19 +136,39 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  function addCity({ cityName, date, notes, position }: AddCityProp) {
-    dispatch({
-      type: REDUCER_ACTION.ADD_CITY,
-      payload: {
-        addCity: {
-          cityName,
-          date,
-          notes,
-          position,
+  async function addCity(newCity: AddCityProp) {
+    try {
+      dispatch({
+        type: REDUCER_ACTION.LOADING,
+        payload: { loading: true },
+      });
+
+      const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities/`, {
+        method: "POST",
+        body: JSON.stringify(newCity),
+        headers: {
+          "Content-Type": "application/json",
         },
-      },
-    });
+      });
+
+      if (!res.ok) throw new Error("The data couldn't be fetched");
+      const data = await res.json();
+      // dispatch({
+      //   type: REDUCER_ACTION.CURRENT_CITY,
+      //   payload: { currentCity: data },
+      // });
+      console.log(data);
+    } catch (error) {
+      if ((error as Error).name !== "AbortError")
+        console.log((error as Error).message);
+    } finally {
+      dispatch({
+        type: REDUCER_ACTION.LOADING,
+        payload: { loading: false },
+      });
+    }
   }
+
   return (
     <cityContext.Provider
       value={{
