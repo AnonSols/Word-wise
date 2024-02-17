@@ -136,7 +136,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function addCity(newCity: AddCityProp) {
+  async function addCity({ newCity }: AddCityProp) {
     try {
       dispatch({
         type: REDUCER_ACTION.LOADING,

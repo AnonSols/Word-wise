@@ -17,10 +17,11 @@ function Form() {
   const [cityName, setCityName] = useState<string>("");
   const [country, setCountry] = useState<string>("");
   const [emoji, setEmoji] = useState<string>("");
-  const [date, setDate] = useState(new Date().toString());
+  const [date, setDate] = useState<Date>(new Date());
   const [notes, setNotes] = useState<string>("");
   const { convertToEmoji } = useCity();
   const { lat, lng } = useUrlPosition();
+  const { addCity } = useCity();
 
   // const position: positionProp = {
   //   lat,
@@ -33,7 +34,7 @@ function Form() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!cityName && !date) return;
+    if (!cityName || !date) return;
 
     const newCity = {
       cityName,
@@ -44,6 +45,7 @@ function Form() {
       position: { lat, lng },
     };
 
+    addCity(newCity);
     console.log(newCity);
   }
 
@@ -68,7 +70,7 @@ function Form() {
           );
 
         setCityName(data.city || data.locality || "");
-        setCountry(data.cityName);
+        setCountry(data.countryName);
         setEmoji(convertToEmoji(data.countryCode));
       } catch (e) {
         if ((e as Error).name !== "AbortError")
@@ -109,7 +111,7 @@ function Form() {
         /> */}
         <DatePicker
           id="date"
-          onChange={(date) => setDate(date)}
+          onChange={(date: Date | null) => date && setDate(date)}
           dateFormat="dd/MM/yyyy"
           selected={date}
         />
