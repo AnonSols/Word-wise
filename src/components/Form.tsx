@@ -21,7 +21,7 @@ function Form() {
   const [notes, setNotes] = useState<string>("");
   const { convertToEmoji } = useCity();
   const { lat, lng } = useUrlPosition();
-  const { addCity } = useCity();
+  // const { addCity } = useCity();
 
   // const position: positionProp = {
   //   lat,
@@ -45,12 +45,12 @@ function Form() {
       position: { lat, lng },
     };
 
-    addCity(newCity);
+    // addCity(newCity);
     console.log(newCity);
   }
 
   useEffect(() => {
-    const controller = new AbortController();
+    // const controller = new AbortController();
 
     async function geoCoding() {
       try {
@@ -58,8 +58,7 @@ function Form() {
         setIsLoadingGeoCoding(true);
         setErrorGeoCoding("");
         const res = await fetch(
-          `${REDUCER_ACTION.DATA_ENDPOINT}?latitude=${lat}&longitude=${lng}`,
-          { signal: controller.signal }
+          `${REDUCER_ACTION.DATA_ENDPOINT}?latitude=${lat}&longitude=${lng}`
         );
         if (!res.ok) throw new Error("There was an error fetching Data");
         const data = await res.json();
@@ -83,7 +82,7 @@ function Form() {
 
     geoCoding();
 
-    return () => controller.abort();
+    // return () => controller.abort();
   }, [lat, lng, convertToEmoji]);
 
   if (isLoadingGeoCoding) return <Spinner />;

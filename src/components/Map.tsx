@@ -1,41 +1,41 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { useEffect, useState } from "react";
 import style from "./Map.module.css";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-  useMapEvents,
-} from "react-leaflet";
-import { useCity } from "../context/CityContext";
-import { useGeolocation } from "../Hooks/useGeoLocation";
-import Button from "./Button/Button";
-import { useUrlPosition } from "../Hooks/useUrlPosition";
+// import {
+//   MapContainer,
+//   TileLayer,
+//   Marker,
+//   Popup,
+//   useMap,
+//   useMapEvents,
+// } from "react-leaflet";
+// import { useCity } from "../context/CityContext";
+// import { useGeolocation } from "../Hooks/useGeoLocation";
+// import Button from "./Button/Button";
+// import { useUrlPosition } from "../Hooks/useUrlPosition";
 
 const Map = () => {
-  const { cities } = useCity();
-  const {
-    isLoading: isLoadingPosition,
-    position: geolocationPosition,
-    getPosition,
-  } = useGeolocation();
+  // const { cities } = useCity();
+  // const {
+  //   isLoading: isLoadingPosition,
+  //   position: geolocationPosition,
+  //   getPosition,
+  // } = useGeolocation();
 
-  const [mapPosition, setMapPosition] = useState<[number, number]>([40, 0]);
-  const { lat, lng } = useUrlPosition();
+  // const [mapPosition, setMapPosition] = useState<[number, number]>([40, 0]);
+  // const { lat, lng } = useUrlPosition();
 
-  useEffect(() => {
-    if (lat && lng) setMapPosition([lat, lng]);
-  }, [lat, lng]);
+  // useEffect(() => {
+  //   if (lat && lng) setMapPosition([lat, lng]);
+  // }, [lat, lng]);
 
-  useEffect(() => {
-    if (geolocationPosition)
-      setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
-  }, [geolocationPosition]);
+  // useEffect(() => {
+  //   if (geolocationPosition)
+  //     setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
+  // }, [geolocationPosition]);
   return (
     <div className={style.mapContainer}>
-      {!geolocationPosition && (
+      {/* {!geolocationPosition && (
         <Button type="position" onclick={getPosition}>
           {isLoadingPosition ? "Loading" : "Use your position"}
         </Button>
@@ -66,29 +66,30 @@ const Map = () => {
           ))}
         <ChangCenter position={mapPosition} />
         <DetectClick />
-      </MapContainer>
+      </MapContainer> */}
+      what's wrong
     </div>
   );
 };
 
-function ChangCenter({ position }: { position: [number, number] }): null {
-  const map = useMap();
+// function ChangCenter({ position }: { position: [number, number] }): null {
+//   const map = useMap();
 
-  map.setView(position);
-  return null;
-}
+//   map.setView(position);
+//   return null;
+// }
 
-function DetectClick(): null {
-  const navigate = useNavigate();
-  useMapEvents({
-    click: (e) => {
-      console.log(e.latlng.lat, e.latlng.lng);
+// function DetectClick(): null {
+//   const navigate = useNavigate();
+//   useMapEvents({
+//     click: (e) => {
+//       console.log(e.latlng.lat, e.latlng.lng);
 
-      return navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
-    },
-  });
+//       return navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+//     },
+//   });
 
-  return null;
-}
+//   return null;
+// }
 
 export default Map;

@@ -21,7 +21,7 @@ type CityContextProp = {
   isLoading: boolean | undefined;
   dispatch: React.Dispatch<REDUCER_TYPE>;
   getCity(id: string): Promise<void>;
-  addCity(newCity: AddCityProp): void;
+  // addCity(newCity: AddCityProp): void;
   currentCity: sampleProp;
   convertToEmoji(countryCode: string): string;
 };
@@ -33,7 +33,6 @@ function convertToEmoji(countryCode: string): string {
     .toUpperCase()
     .split("")
     .map((char) => 127397 + char.charCodeAt(Number(char)));
-  console.log(codePoints);
 
   return String.fromCodePoint(...codePoints);
 }
@@ -136,38 +135,38 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function addCity({ newCity }: AddCityProp) {
-    try {
-      dispatch({
-        type: REDUCER_ACTION.LOADING,
-        payload: { loading: true },
-      });
+  // async function addCity({ newCity }: AddCityProp) {
+  //   try {
+  //     dispatch({
+  //       type: REDUCER_ACTION.LOADING,
+  //       payload: { loading: true },
+  //     });
 
-      const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities/`, {
-        method: "POST",
-        body: JSON.stringify(newCity),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  //     const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities/`, {
+  //       method: "POST",
+  //       body: JSON.stringify(newCity),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-      if (!res.ok) throw new Error("The data couldn't be fetched");
-      const data = await res.json();
-      // dispatch({
-      //   type: REDUCER_ACTION.CURRENT_CITY,
-      //   payload: { currentCity: data },
-      // });
-      console.log(data);
-    } catch (error) {
-      if ((error as Error).name !== "AbortError")
-        console.log((error as Error).message);
-    } finally {
-      dispatch({
-        type: REDUCER_ACTION.LOADING,
-        payload: { loading: false },
-      });
-    }
-  }
+  //     if (!res.ok) throw new Error("The data couldn't be fetched");
+  //     const data = await res.json();
+  //     // dispatch({
+  //     //   type: REDUCER_ACTION.CURRENT_CITY,
+  //     //   payload: { currentCity: data },
+  //     // });
+  //     console.log(data);
+  //   } catch (error) {
+  //     if ((error as Error).name !== "AbortError")
+  //       console.log((error as Error).message);
+  //   } finally {
+  //     dispatch({
+  //       type: REDUCER_ACTION.LOADING,
+  //       payload: { loading: false },
+  //     });
+  //   }
+  // }
 
   return (
     <cityContext.Provider
@@ -178,7 +177,6 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         getCity,
         currentCity,
         convertToEmoji,
-        addCity,
       }}
     >
       <> {children}</>

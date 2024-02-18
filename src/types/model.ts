@@ -22,7 +22,17 @@ export const sample = {
 };
 
 export type AddCityProp = {
-  newCity: typeof sample;
+  newCity: {
+    cityName: string;
+    country: string;
+    emoji: string;
+    date: string;
+    notes: string;
+    position: {
+      lat: number;
+      lng: number;
+    };
+  };
 };
 
 export interface CountryProp {

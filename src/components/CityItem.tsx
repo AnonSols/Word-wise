@@ -15,12 +15,12 @@ const formatDate = (date: string) =>
   }).format(new Date(date));
 const CityItem = ({ city }: Prop) => {
   const { cityName, emoji, date, id, position } = city;
-  const { lat, lng } = position;
+  // const { lat, lng } = position;
   const { currentCity } = useCity();
   return (
     <li>
       <Link
-        to={`${id}?lat=${lat}&lng=${lng}`}
+        to={`${id}?lat=${position.lat}&lng=${position.lng}`}
         className={`${styles.cityItem} ${
           currentCity.id === id ? styles["cityItem--active"] : ""
         }`}
