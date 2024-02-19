@@ -35,21 +35,6 @@
         "lng": 13.376933665713324
       },
       "id": "98443197"
-    },
-    {
-      "id": "",
-      "cityName": "Cidones",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "Sat Feb 17 2024 20:05:17 GMT+0100 (West Africa Standard Time)",
-      "notes": "fsfd",
-      "position": {
-        "lat": 41.812267143599804,
-        "lng": -2.7136230468750004
-      }
-    },
-    {
-      "id": "0a82"
     }
   ]
 }
