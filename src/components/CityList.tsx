@@ -14,7 +14,6 @@ const CityList = () => {
       />
     );
 
-  console.log(cities);
   return (
     <ul className={styles.cityList}>
       {cities && cities.map((city) => <CityItem city={city} key={city.id} />)}

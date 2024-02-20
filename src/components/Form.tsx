@@ -6,7 +6,7 @@ import styles from "./Form.module.css";
 import Button from "./Button/Button";
 import BackButton from "./Button/BackButton";
 import { useCity } from "../context/CityContext";
-import { REDUCER_ACTION } from "../types/model";
+import { AddCityProp, REDUCER_ACTION } from "../types/model";
 import { useUrlPosition } from "../Hooks/useUrlPosition";
 import Message from "./Message";
 import Spinner from "./Spinner";
@@ -21,7 +21,7 @@ function Form() {
   const [notes, setNotes] = useState<string>("");
   const { convertToEmoji } = useCity();
   const { lat, lng } = useUrlPosition();
-  // const { addCity } = useCity();
+  const { addCity } = useCity();
 
   // const position: positionProp = {
   //   lat,
@@ -36,17 +36,18 @@ function Form() {
 
     if (!cityName || !date) return;
 
-    const newCity = {
-      cityName,
-      country,
-      emoji,
-      date,
-      notes,
-      position: { lat, lng },
+    const newCityProp: AddCityProp = {
+      newCity: {
+        cityName,
+        country,
+        emoji,
+        date,
+        notes,
+        position: { lat, lng },
+      },
     };
 
-    // addCity(newCity);
-    console.log(newCity);
+    addCity(newCityProp);
   }
 
   useEffect(() => {

@@ -26,7 +26,7 @@ export type AddCityProp = {
     cityName: string;
     country: string;
     emoji: string;
-    date: string;
+    date: Date;
     notes: string;
     position: {
       lat: number;
