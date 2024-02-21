@@ -16,7 +16,12 @@ const formatDate = (date: string) =>
 const CityItem = ({ city }: Prop) => {
   const { cityName, emoji, date, id, position } = city;
   // const { lat, lng } = position;
-  const { currentCity } = useCity();
+  const { currentCity, deleteCity } = useCity();
+
+  function handleClick(e: React.FormEvent) {
+    e.preventDefault();
+    deleteCity(id);
+  }
   return (
     <li>
       <Link
@@ -29,7 +34,9 @@ const CityItem = ({ city }: Prop) => {
         <h3 className={styles.name}>{cityName}</h3>
 
         <time className={styles.date}>({formatDate(date)})</time>
-        <button className={styles.deleteBtn}>&times;</button>
+        <button className={styles.deleteBtn} onClick={(e:React.FormEvent) => handleClick(e)}>
+          &times;
+        </button>
       </Link>
     </li>
   );

@@ -2,9 +2,8 @@ export enum REDUCER_ACTION {
   CITIES,
   LOADING,
   CURRENT_CITY,
-  ADD_CITY,
   REMOVE_CITY,
-  ENDPOINT = "http://localhost:3000/",
+  ENDPOINT = "http://localhost:9000/",
   DATA_ENDPOINT = "https://api.bigdatacloud.net/data/reverse-geocode-client",
 }
 
@@ -50,19 +49,12 @@ export interface positionProp {
   lat: number;
   lng: number;
 }
-// export type AddCityProp = {
-//   cityName: string;
-//   date: string;
-
-//   notes: string;
-//   position: positionProp;
-// };
-
 export interface REDUCER_TYPE {
   type: REDUCER_ACTION;
   payload?: {
     loading?: boolean;
     data?: (typeof sample)[];
+    id?: string;
     currentCity?: typeof sample;
     addCity?: AddCityProp;
   };

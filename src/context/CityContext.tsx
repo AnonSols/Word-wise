@@ -23,6 +23,7 @@ type CityContextProp = {
   getCity(id: string): Promise<void>;
   addCity(newCity: AddCityProp): void;
   currentCity: sampleProp;
+  deleteCity(id: string): void;
   convertToEmoji(countryCode: string): string;
 };
 
@@ -60,6 +61,13 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
           currentCity: action.payload?.currentCity
             ? action.payload.currentCity
             : state.currentCity,
+        };
+      case REDUCER_ACTION.REMOVE_CITY:
+        return {
+          ...state,
+          cities: cities?.filter((city) => {
+            action.payload?.id ? city.id !== action.payload?.id : city;
+          }),
         };
 
       default:
@@ -136,7 +144,6 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function addCity({ newCity }: AddCityProp) {
-   
     try {
       dispatch({
         type: REDUCER_ACTION.LOADING,
@@ -168,6 +175,30 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  async function deleteCity(id: string) {
+    try {
+      dispatch({
+        type: REDUCER_ACTION.LOADING,
+        payload: { loading: true },
+      });
+      await fetch(`${REDUCER_ACTION.ENDPOINT}cities/${id}`, {
+        method: "DELETE",
+      });
+      dispatch({
+        type: REDUCER_ACTION.REMOVE_CITY,
+        payload: { id },
+      });
+    } catch (error) {
+      if ((error as Error).name !== "AbortError")
+        console.log((error as Error).message);
+    } finally {
+      dispatch({
+        type: REDUCER_ACTION.LOADING,
+        payload: { loading: false },
+      });
+    }
+  }
+
   return (
     <cityContext.Provider
       value={{
@@ -176,6 +207,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         cities,
         getCity,
         addCity,
+        deleteCity,
         currentCity,
         convertToEmoji,
       }}
