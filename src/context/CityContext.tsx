@@ -65,7 +65,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
       case REDUCER_ACTION.REMOVE_CITY:
         return {
           ...state,
-          cities: cities?.filter((city) => {
+          cities: state.cities?.filter((city) => {
             action.payload?.id ? city.id !== action.payload?.id : city;
           }),
         };
