@@ -22,6 +22,7 @@ const CityItem = ({ city }: Prop) => {
     e.preventDefault();
     deleteCity(id);
   }
+
   return (
     <li>
       <Link
@@ -34,7 +35,10 @@ const CityItem = ({ city }: Prop) => {
         <h3 className={styles.name}>{cityName}</h3>
 
         <time className={styles.date}>({formatDate(date)})</time>
-        <button className={styles.deleteBtn} onClick={(e:React.FormEvent) => handleClick(e)}>
+        <button
+          className={styles.deleteBtn}
+          onClick={(e: React.FormEvent) => handleClick(e)}
+        >
           &times;
         </button>
       </Link>

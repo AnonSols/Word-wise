@@ -159,11 +159,10 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
 
       if (!res.ok) throw new Error("The data couldn't be fetched");
       const data = await res.json();
-      // dispatch({
-      //   type: REDUCER_ACTION.CURRENT_CITY,
-      //   payload: { currentCity: data },
-      // });
-      console.log(data);
+      dispatch({
+        type: REDUCER_ACTION.CURRENT_CITY,
+        payload: { currentCity: data },
+      });
     } catch (error) {
       if ((error as Error).name !== "AbortError")
         console.log((error as Error).message);
@@ -188,6 +187,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         type: REDUCER_ACTION.REMOVE_CITY,
         payload: { id },
       });
+      // cities?.filter((city) => city.id !== id);
     } catch (error) {
       if ((error as Error).name !== "AbortError")
         console.log((error as Error).message);
