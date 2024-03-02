@@ -6,7 +6,7 @@ import styles from "./Form.module.css";
 import Button from "./Button/Button";
 import BackButton from "./Button/BackButton";
 import { useCity } from "../context/CityContext";
-import { AddCityProp, REDUCER_ACTION } from "../types/model";
+import { AddCityProp, REDUCER_ACTION } from "../types/cityModel";
 import { useUrlPosition } from "../Hooks/useUrlPosition";
 import Message from "./Message";
 import Spinner from "./Spinner";

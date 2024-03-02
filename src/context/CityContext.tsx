@@ -6,7 +6,7 @@ import {
   REDUCER_ACTION,
   REDUCER_TYPE,
   sample,
-} from "../types/model";
+} from "../types/cityModel";
 
 export type sampleProp = typeof sample;
 

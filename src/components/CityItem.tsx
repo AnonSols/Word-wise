@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { cities } from "../types/model";
+import { cities } from "../types/cityModel";
 import styles from "./CityItem.module.css";
 import { useCity } from "../context/CityContext";
 type Prop = {
