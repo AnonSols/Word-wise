@@ -14,14 +14,16 @@ const initialState: InitialState = {
   cities: [],
   isLoading: false,
   currentCity: {} as sampleProp,
+  rejected: "",
 };
 
 type CityContextProp = {
   cities: sampleProp[] | undefined;
   isLoading: boolean | undefined;
+  rejected: string;
   dispatch: React.Dispatch<REDUCER_TYPE>;
   getCity(id: string): Promise<void>;
-  addCity(newCity: AddCityProp): void;
+  addCity(newCity: AddCityProp): Promise<void>;
   currentCity: sampleProp;
   deleteCity(id: string): void;
   convertToEmoji(countryCode: string): string;
@@ -48,7 +50,16 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         return {
           ...state,
           cities: action.payload?.data,
+          isLoading: false,
         };
+
+      case REDUCER_ACTION.REJECTED:
+        return {
+          ...state,
+          rejected: action.payload?.rejected ? action.payload?.rejected : "",
+          isLoading: false,
+        };
+
       case REDUCER_ACTION.LOADING:
         return {
           ...state,
@@ -61,13 +72,23 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
           currentCity: action.payload?.currentCity
             ? action.payload.currentCity
             : state.currentCity,
+          isLoading: false,
         };
+
+      case REDUCER_ACTION.ADD_CITY:
+        return {
+          ...state,
+          cities: [...state.cities, action.payload?.currentCity],
+          isLoading: false,
+        };
+
       case REDUCER_ACTION.REMOVE_CITY:
         return {
           ...state,
-          cities: state.cities?.filter((city) => {
-            action.payload?.id ? city.id !== action.payload?.id : city;
-          }),
+          cities: state.cities?.filter(
+            (city) => city.id !== action.payload?.id
+          ),
+          isLoading: false,
         };
 
       default:
@@ -75,7 +96,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const [{ cities, isLoading, currentCity }, dispatch] = useReducer(
+  const [{ cities, isLoading, currentCity, rejected }, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -84,19 +105,18 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     const controller = new AbortController();
 
     async function cityData() {
+      dispatch({
+        type: REDUCER_ACTION.LOADING,
+        payload: { loading: true },
+      });
       try {
-        dispatch({
-          type: REDUCER_ACTION.LOADING,
-          payload: { loading: true },
-        });
-
         const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities`, {
           signal: controller.signal,
         });
 
         if (!res.ok) throw new Error("The data couldn't be fetched");
         const data = await res.json();
-
+        console.log(data);
         dispatch({
           type: REDUCER_ACTION.CITIES,
           payload: { data },
@@ -104,10 +124,9 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         if ((error as Error).name !== "AbortError")
           console.log((error as Error).message);
-      } finally {
         dispatch({
-          type: REDUCER_ACTION.LOADING,
-          payload: { loading: false },
+          type: REDUCER_ACTION.REJECTED,
+          payload: { rejected: "There was an error getting cities!" },
         });
       }
     }
@@ -118,12 +137,11 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function getCity(id: string) {
+    dispatch({
+      type: REDUCER_ACTION.LOADING,
+      payload: { loading: true },
+    });
     try {
-      dispatch({
-        type: REDUCER_ACTION.LOADING,
-        payload: { loading: true },
-      });
-
       const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities/${id}`);
 
       if (!res.ok) throw new Error("The data couldn't be fetched");
@@ -135,21 +153,22 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       if ((error as Error).name !== "AbortError")
         console.log((error as Error).message);
-    } finally {
       dispatch({
-        type: REDUCER_ACTION.LOADING,
-        payload: { loading: false },
+        type: REDUCER_ACTION.REJECTED,
+        payload: {
+          rejected: "There was an error getting the current city",
+        },
       });
     }
   }
 
   async function addCity({ newCity }: AddCityProp) {
+    dispatch({
+      type: REDUCER_ACTION.LOADING,
+      payload: { loading: true },
+    });
     try {
-      dispatch({
-        type: REDUCER_ACTION.LOADING,
-        payload: { loading: true },
-      });
-      const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities/`, {
+      const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities`, {
         method: "POST",
         body: JSON.stringify(newCity),
         headers: {
@@ -160,16 +179,18 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
       if (!res.ok) throw new Error("The data couldn't be fetched");
       const data = await res.json();
       dispatch({
-        type: REDUCER_ACTION.CURRENT_CITY,
+        type: REDUCER_ACTION.ADD_CITY,
         payload: { currentCity: data },
       });
+      console.log(data);
     } catch (error) {
       if ((error as Error).name !== "AbortError")
         console.log((error as Error).message);
-    } finally {
       dispatch({
-        type: REDUCER_ACTION.LOADING,
-        payload: { loading: false },
+        type: REDUCER_ACTION.REJECTED,
+        payload: {
+          rejected: "There was an error adding this city",
+        },
       });
     }
   }
@@ -187,14 +208,14 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         type: REDUCER_ACTION.REMOVE_CITY,
         payload: { id },
       });
-      // cities?.filter((city) => city.id !== id);
     } catch (error) {
       if ((error as Error).name !== "AbortError")
         console.log((error as Error).message);
-    } finally {
       dispatch({
-        type: REDUCER_ACTION.LOADING,
-        payload: { loading: false },
+        type: REDUCER_ACTION.REJECTED,
+        payload: {
+          rejected: "There was an error deleting this current city",
+        },
       });
     }
   }
@@ -204,6 +225,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
       value={{
         dispatch,
         isLoading,
+        rejected,
         cities,
         getCity,
         addCity,
