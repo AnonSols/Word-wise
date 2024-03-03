@@ -43,7 +43,7 @@ export interface CountryProp {
 export type cities = typeof sample;
 
 export type InitialState = {
-  cities?: Array<typeof sample>;
+  cities: Array<typeof sample>;
   isLoading?: boolean;
   currentCity: typeof sample;
   rejected: string;

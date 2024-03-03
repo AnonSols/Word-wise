@@ -5,22 +5,22 @@ export enum REDUCER_AUTH_ACTION {
   LOGOUT,
 }
 
+export const FAKE_USER = {
+  NAME: "Jack",
+  EMAIL: "jack@example.com",
+  PASSWORD: "qwerty",
+  AVATAR: "https://i.pravatar.cc/100?u=zz",
+};
 export interface REDUCER_AUTH_TYPE {
   type: REDUCER_AUTH_ACTION;
-  payload: {
-    isAuth: boolean;
-    user: null | userProp;
-  };
+  payload?: userProp;
 }
 
 export type ProviderProp = {
   children: ReactNode;
 };
 
-export type userProp = {
-  email: string;
-  password: string;
-};
+export type userProp = typeof FAKE_USER;
 
 export type InitialStateProp = {
   isAuth: boolean;
@@ -29,5 +29,7 @@ export type InitialStateProp = {
 export type ContextProp = {
   dispatch: React.Dispatch<REDUCER_AUTH_TYPE>;
   isAuth: boolean;
+  Login(email: string, password: string): void;
+  Logout: () => void;
   user: null | userProp;
 };

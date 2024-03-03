@@ -49,7 +49,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
       case REDUCER_ACTION.CITIES:
         return {
           ...state,
-          cities: action.payload?.data,
+          cities: action.payload?.data ? action.payload?.data : [],
           isLoading: false,
         };
 
@@ -78,7 +78,7 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
       case REDUCER_ACTION.ADD_CITY:
         return {
           ...state,
-          cities: [...state.cities, action.payload?.currentCity],
+          cities: [...state.cities, state.currentCity],
           isLoading: false,
         };
 
@@ -182,7 +182,6 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
         type: REDUCER_ACTION.ADD_CITY,
         payload: { currentCity: data },
       });
-      console.log(data);
     } catch (error) {
       if ((error as Error).name !== "AbortError")
         console.log((error as Error).message);

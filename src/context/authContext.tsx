@@ -5,6 +5,7 @@ import {
   REDUCER_AUTH_ACTION,
   ContextProp,
   REDUCER_AUTH_TYPE,
+  FAKE_USER,
 } from "../types/authModel";
 
 const AuthContex = createContext<ContextProp | undefined>(undefined);
@@ -24,12 +25,7 @@ function AuthProvider({ children }: ProviderProp) {
         return {
           ...state,
           isAuth: true,
-          user: {
-            email: action.payload.user?.email ? action.payload.user?.email : "",
-            password: action.payload.user?.password
-              ? action.payload.user?.password
-              : "",
-          },
+          user: action.payload ? action.payload : state.user,
         };
       case REDUCER_AUTH_ACTION.LOGOUT:
         return {
@@ -42,10 +38,20 @@ function AuthProvider({ children }: ProviderProp) {
         throw new Error("An error Occured");
     }
   }
+
+  function Login(email: string, password: string) {
+    if (!(email === FAKE_USER.EMAIL && password === FAKE_USER.PASSWORD)) return;
+
+    dispatch({ type: REDUCER_AUTH_ACTION.LOGIN, payload: FAKE_USER });
+  }
+
+  function Logout() {
+    dispatch({ type: REDUCER_AUTH_ACTION.LOGOUT });
+  }
   const [{ isAuth, user }, dispatch] = useReducer(reducer, InitialState);
 
   return (
-    <AuthContex.Provider value={{ dispatch, isAuth, user }}>
+    <AuthContex.Provider value={{ dispatch, isAuth, user, Login, Logout }}>
       <>{children}</>
     </AuthContex.Provider>
   );
