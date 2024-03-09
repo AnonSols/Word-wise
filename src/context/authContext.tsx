@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useMemo, useReducer } from "react";
 import {
   InitialStateProp,
   ProviderProp,
@@ -50,8 +50,11 @@ function AuthProvider({ children }: ProviderProp) {
   }
   const [{ isAuth, user }, dispatch] = useReducer(reducer, InitialState);
 
+  const value = useMemo(() => {
+    return { dispatch, isAuth, user, Login, Logout };
+  }, [isAuth, user]);
   return (
-    <AuthContex.Provider value={{ dispatch, isAuth, user, Login, Logout }}>
+    <AuthContex.Provider value={value}>
       <>{children}</>
     </AuthContex.Provider>
   );

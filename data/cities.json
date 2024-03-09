@@ -83,6 +83,18 @@
         "lat": 7.8144053088464505,
         "lng": 2.6312255859375004
       }
+    },
+    {
+      "id": "b2cb",
+      "cityName": "Puentes Viejas",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2024-03-09T12:13:32.407Z",
+      "notes": "This is freaking los vagas",
+      "position": {
+        "lat": 40.979898069620155,
+        "lng": -3.6035156250000004
+      }
     }
   ]
 }
