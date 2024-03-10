@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 
 import {
   AddCityProp,
@@ -136,31 +142,35 @@ function CitiesProvider({ children }: { children: React.ReactNode }) {
     return () => controller.abort();
   }, []);
 
-  async function getCity(id: string) {
-    dispatch({
-      type: REDUCER_ACTION.LOADING,
-      payload: { loading: true },
-    });
-    try {
-      const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities/${id}`);
+  const getCity = useCallback(
+    async function getCity(id: string) {
+      if (id !== currentCity.id) return;
+      dispatch({
+        type: REDUCER_ACTION.LOADING,
+        payload: { loading: true },
+      });
+      try {
+        const res = await fetch(`${REDUCER_ACTION.ENDPOINT}cities/${id}`);
 
-      if (!res.ok) throw new Error("The data couldn't be fetched");
-      const data = await res.json();
-      dispatch({
-        type: REDUCER_ACTION.CURRENT_CITY,
-        payload: { currentCity: data },
-      });
-    } catch (error) {
-      if ((error as Error).name !== "AbortError")
-        console.log((error as Error).message);
-      dispatch({
-        type: REDUCER_ACTION.REJECTED,
-        payload: {
-          rejected: "There was an error getting the current city",
-        },
-      });
-    }
-  }
+        if (!res.ok) throw new Error("The data couldn't be fetched");
+        const data = await res.json();
+        dispatch({
+          type: REDUCER_ACTION.CURRENT_CITY,
+          payload: { currentCity: data },
+        });
+      } catch (error) {
+        if ((error as Error).name !== "AbortError")
+          console.log((error as Error).message);
+        dispatch({
+          type: REDUCER_ACTION.REJECTED,
+          payload: {
+            rejected: "There was an error getting the current city",
+          },
+        });
+      }
+    },
+    [currentCity.id]
+  );
 
   async function addCity({ newCity }: AddCityProp) {
     dispatch({
