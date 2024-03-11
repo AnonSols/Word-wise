@@ -83,6 +83,30 @@
         "lat": 40.979898069620155,
         "lng": -3.6035156250000004
       }
+    },
+    {
+      "id": "b102",
+      "cityName": "Rodenas",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2024-03-10T12:48:09.991Z",
+      "notes": "new here",
+      "position": {
+        "lat": 40.6306300839918,
+        "lng": -1.4996337890625002
+      }
+    },
+    {
+      "id": "fbb7",
+      "cityName": "Linares de Mora",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2024-03-10T12:48:46.115Z",
+      "notes": "new here",
+      "position": {
+        "lat": 40.34654412118006,
+        "lng": -0.5548095703125001
+      }
     }
   ]
 }
